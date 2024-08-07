@@ -1,0 +1,135 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>com.ibs.lmp</groupId>
+  <artifactId>ps-lmp-automation</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  
+  <name>ps-lmp-automation-tests</name>
+  <description>Loyalty Member Portal Automation</description>
+  
+  <properties>
+  	<inext-automation-framework.version>lmp-0.6.4</inext-automation-framework.version>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<maven.compiler.source>1.8</maven.compiler.source>
+	<maven.compiler.target>1.8</maven.compiler.target>
+	<aspectj.version>1.8.10</aspectj.version>
+  </properties>
+  
+  <dependencies>
+  	
+  	<!-- https://ibsplc.sharepoint.com/sites/iNextTestAutomation/Library/Forms/AllItems.aspx?id=%2Fsites%2FiNextTestAutomation%2FLibrary%2Finext%2Dautomation%2Dframework%2FOMS%2FJar&viewid=f6fabcd9%2Ddaa6%2D4251%2D8898%2D93f8743dfc3b -->
+  		<dependency>
+		<groupId>com.ibs</groupId>
+		<artifactId>i-next-test-automation-framework</artifactId>
+		<version>${inext-automation-framework.version}</version>
+		<scope>system</scope>
+		<systemPath>${project.basedir}/lib/i-next-test-automation-framework-${inext-automation-framework.version}.jar</systemPath>
+	</dependency>
+  	
+	<!-- https://mvnrepository.com/artifact/org.testng/testng -->
+	<dependency>
+	    <groupId>org.testng</groupId>
+	    <artifactId>testng</artifactId>
+	    <version>7.0.0</version>
+	</dependency>
+	
+  </dependencies>
+  
+  <build>
+	 	<pluginManagement> <!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+			<plugins>
+				<plugin>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>3.0.2</version>
+				</plugin>
+	
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.8.0</version>
+				</plugin>
+	
+				<plugin>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.22.1</version>
+					<configuration>
+						<suiteXmlFiles>
+							<suiteXmlFile>src/main/resources/testNG.xml</suiteXmlFile>
+						</suiteXmlFiles>
+						<argLine>
+							-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+						</argLine>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.aspectj</groupId>
+							<artifactId>aspectjweaver</artifactId>
+							<version>${aspectj.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				
+				<plugin>
+		            <groupId>org.codehaus.mojo</groupId>
+		            <artifactId>exec-maven-plugin</artifactId>
+		            <version>3.1.0</version>
+		            <dependencies>
+	                    <dependency>
+							<groupId>com.ibs</groupId>
+							<artifactId>i-next-test-automation-framework</artifactId>
+							<version>${inext-automation-framework.version}</version>
+							<scope>system</scope>
+							<systemPath>${project.basedir}/lib/i-next-test-automation-framework-${inext-automation-framework.version}.jar</systemPath>
+						</dependency>
+	                </dependencies>
+		            <executions>
+		                <execution>
+		                    <id>TestNGUtils</id>
+		                    <goals>
+		                        <goal>java</goal>
+		                    </goals>
+		                    <configuration>
+		                        <mainClass>com.ibs.utils.TestNGUtils</mainClass>
+								<cleanupDaemonThreads>false</cleanupDaemonThreads>
+								<includePluginDependencies>true</includePluginDependencies>
+								<includeProjectDependencies>true</includeProjectDependencies>
+								<additionalClasspathElements>
+						            <additionalClasspathElement>
+						                /lib/i-next-test-automation-framework-${inext-automation-framework.version}.jar
+						            </additionalClasspathElement>
+						        </additionalClasspathElements>
+			                    <arguments>
+			                        <argument>${project.build.directory}/classes</argument>
+			                    </arguments>
+		                    </configuration>
+		                </execution>
+		                <execution>
+		                    <id>TestResultReporting</id>
+		                    <goals>
+		                        <goal>java</goal>
+		                    </goals>
+		                    <configuration>
+		                        <mainClass>com.ibs.utils.TestResultReporting</mainClass>
+		                        <cleanupDaemonThreads>false</cleanupDaemonThreads>
+								<includePluginDependencies>true</includePluginDependencies>
+								<includeProjectDependencies>true</includeProjectDependencies>
+								<additionalClasspathElements>
+						            <additionalClasspathElement>
+						                /lib/i-next-test-automation-framework-${inext-automation-framework.version}.jar
+						            </additionalClasspathElement>
+						        </additionalClasspathElements>
+			                    <arguments>
+			                        <argument>${project.build.directory}/classes</argument>
+			                    </arguments>
+		                    </configuration>
+		                </execution>
+		            </executions>
+		        </plugin>
+		        
+			</plugins>
+		</pluginManagement>
+	</build>
+	
+</project>

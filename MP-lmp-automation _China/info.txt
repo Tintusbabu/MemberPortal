@@ -1,0 +1,2 @@
+For building the project run the mvn command:
+clean compile exec:java@TestNGUtils test -Dmaven.test.failure.ignore=true exec:java@TestResultReporting

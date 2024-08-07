@@ -1,0 +1,8 @@
+{
+  "enroll": {
+    "XPATH_LMP_REGISTRATION_PAGE_LASTNAME_TEXTBOX": {
+      "xpath": "//input[@id='personalInfo_id-givenName-text']",
+      "key": ""
+    }
+  }
+}
